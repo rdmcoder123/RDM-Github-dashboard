@@ -24,6 +24,8 @@ interface Repository {
   name: string;
   html_url: string;
 }
+const VITE_GITHUB_ORG = G2HackFest;
+const VITE_GITHUB_TOKEN = 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;
 
 export const AdminDashboard: React.FC = () => {
   const [pullRequests, setPullRequests] = useState<PullRequest[]>([]);
@@ -34,8 +36,8 @@ export const AdminDashboard: React.FC = () => {
   const [selectedRepo, setSelectedRepo] = useState<string>('all');
 
   const validateEnvironmentVariables = () => {
-    const org = import.meta.env.VITE_GITHUB_ORG;
-    const token = import.meta.env.VITE_GITHUB_TOKEN;
+    const org = VITE_GITHUB_ORG;
+    const token = VITE_GITHUB_TOKEN;
 
     if (!org || !token) {
       throw new Error('Missing required environment variables. Please check your .env file.');
@@ -45,10 +47,10 @@ export const AdminDashboard: React.FC = () => {
   const fetchRepositories = async () => {
     try {
       const response = await fetch(
-        `https://api.github.com/orgs/${import.meta.env.VITE_GITHUB_ORG}/repos?per_page=100&sort=updated`,
+        `https://api.github.com/orgs/${VITE_GITHUB_ORG}/repos?per_page=100&sort=updated`,
         {
           headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            'Authorization': `Bearer ${VITE_GITHUB_TOKEN}`,
             'Accept': 'application/vnd.github.v3+json',
             'X-GitHub-Api-Version': '2022-11-28'
           },
@@ -70,10 +72,10 @@ export const AdminDashboard: React.FC = () => {
 
   const fetchPullRequestsForRepo = async (repo: Repository) => {
     const response = await fetch(
-      `https://api.github.com/repos/${import.meta.env.VITE_GITHUB_ORG}/${repo.name}/pulls?state=all&sort=updated&direction=desc`,
+      `https://api.github.com/repos/${VITE_GITHUB_ORG}/${repo.name}/pulls?state=all&sort=updated&direction=desc`,
       {
         headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+          'Authorization': `Bearer ${VITE_GITHUB_TOKEN}`,
           'Accept': 'application/vnd.github.v3+json',
           'X-GitHub-Api-Version': '2022-11-28'
         },
@@ -141,11 +143,11 @@ export const AdminDashboard: React.FC = () => {
     try {
       setDeletingPR(prNumber);
       const response = await fetch(
-        `https://api.github.com/repos/${import.meta.env.VITE_GITHUB_ORG}/${repoName}/pulls/${prNumber}`,
+        `https://api.github.com/repos/${VITE_GITHUB_ORG}/${repoName}/pulls/${prNumber}`,
         {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${import.meta.env.VITE_GITHUB_TOKEN}`,
+            'Authorization': `Bearer ${VITE_GITHUB_TOKEN}`,
             'Accept': 'application/vnd.github.v3+json',
             'Content-Type': 'application/json',
             'X-GitHub-Api-Version': '2022-11-28'
