@@ -10,7 +10,10 @@ import { Github, AlertCircle } from 'lucide-react';
 import type { Repository, LanguageStats } from './types';
 import { fetchOrganizationRepos } from './utils/github';
 
-const ORGANIZATION_NAME = import.meta.env.VITE_GITHUB_ORG;
+const VITE_GITHUB_ORG = G2HackFest;
+const VITE_GITHUB_TOKEN = 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;
+
+const ORGANIZATION_NAME = VITE_GITHUB_ORG;
 const REFRESH_INTERVAL = 30 * 60 * 1000; // 30 minutes
 const CACHE_DURATION = 25 * 60 * 1000; // 25 minutes
 
